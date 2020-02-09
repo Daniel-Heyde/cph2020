@@ -21,8 +21,62 @@ const useStyles = makeStyles(theme => ({
     },
   }));
 
+const fetchQuestions = () => {
+    const qUrl = ['https://k6w7mqldl2.execute-api.us-east-1.amazonaws.com/prod?type=Q&set-num=1']
+    const questions = {}
+    const letters = ["A", "B", "C", "D"]
+    const qNums = [1, 2, 3, 4, 5]
+
+    qNums.forEach(n => questions[n] = {})
+    qNums.forEach(n => letters.forEach(l => questions[n][l] = {}))
+
+    Promise.all(
+        qUrl.map(url =>
+        fetch(url)
+            .then(response => response.json())
+            .catch(error => alert("oopsie"))
+        )
+    ).then(data => {
+        const payload = data[0]['Items'];
+        // eslint-disable-next-line no-sequences
+        payload.map(q => questions[q.Position]["Text"] = q["Text"]);
+        letters.forEach(letter =>
+            payload.map(q => questions[q.Position][letter] = q[letter] ));
+        console.log(questions);
+        return questions
+    });
+};    
+
+const fetchAnswerPercents = () => {
+    const aUrl = ['https://k6w7mqldl2.execute-api.us-east-1.amazonaws.com/prod?type=A&set-num=1']
+    const percents = {}
+    const letters = ["A", "B", "C", "D"]
+    const qNums = [1, 2, 3, 4, 5]
+
+    qNums.forEach(n => percents[n] = {})
+    qNums.forEach(n => letters.forEach(l => percents[n][l] = {}))
+
+    Promise.all(
+        aUrl.map(url =>
+        fetch(url)
+            .then(response => response.json())
+            .catch(error => alert("oopsie"))
+        )
+    ).then(data => {
+        const payload = data[0]['Items'];
+        // eslint-disable-next-line no-sequences
+        letters.forEach(letter =>
+            payload.map(q => percents[q.Position][letter] = ((q["Total"] === 0 ? 0 : q[letter]/q["Total"]) * 100) + "%" ));
+        console.log(percents);
+        return percents
+    });
+}; 
+
 export default function QuestionReviewList() {
     const classes = useStyles();
+
+    const percs = fetchAnswerPercents();
+    const questanswr = fetchQuestions();
 
     return (
         <List className={classes.root} subheader={<li />}>
