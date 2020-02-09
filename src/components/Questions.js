@@ -5,6 +5,7 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import QuestionAnswers from './QuestionAnswers';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,22 +24,6 @@ function getSteps() {
   return ['Question 1', 'Question 2', 'Question 3', 'Question 4', 'Question 5'];
 }
 
-function getStepContent(stepIndex) {
-  switch (stepIndex) {
-    case 0:
-      return 'Question 1'
-    case 1:
-      return 'Question 2';
-    case 2:
-        return 'Question 3';
-    case 3:
-        return 'Question 4';
-    case 4:
-        return 'Question 5';
-    default:
-    return 'Unknown stepIndex';
-  }
-}
 
 export default function Questions() {
   const classes = useStyles();
@@ -56,6 +41,18 @@ export default function Questions() {
   const handleReset = () => {
     setActiveStep(0);
   };
+
+  const correct = () => {
+
+  }
+
+  const incorrect = () => {
+
+  }
+
+  const getStepContent= (stepIndex) => {
+    return <QuestionAnswers num={stepIndex} correct={correct} incorrect={incorrect}/>
+  }
 
   return (
     <div className={classes.root}>
