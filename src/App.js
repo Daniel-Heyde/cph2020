@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import logo from './assets/logo.svg';
 import MenuBar from './components/MenuBar'
-import HorizontalLabelPositionBelowStepper from './components/Questions'
+import QuestionsTabs from './components/QuestionsTabs'
 import './css/App.css';
 
 class App extends Component {
@@ -9,7 +9,7 @@ class App extends Component {
       return (
         <div>
           <MenuBar />
-          <HorizontalLabelPositionBelowStepper />
+          <QuestionsTabs />
         </div>
       )
   }
